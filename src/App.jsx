@@ -5,10 +5,21 @@ import GameBoard from "./components/GameBoard.jsx";
 
 function App() {
   const [activePlayer, setActivePlayer] = useState("X");
+  const [gameTurns, setGameTurns] = useState([]);
 
-  function handleSquareClick() {
+  function handleSquareClick(rowIndex, symbolIndex) {
     setActivePlayer((prevActivePlayer) => {
       return prevActivePlayer === "X" ? "O" : "X";
+    });
+    setGameTurns((prevGameTurns) => {
+      let currentPlayer = "X";
+      if (prevGameTurns.length > 0 && prevGameTurns[0].currentPlayer === "X") {
+        currentPlayer = "O";
+      }
+      const updatedGameTurns = [
+        { square: { row: rowIndex, col: symbolIndex }, currentPlayer },
+      ];
+      return updatedGameTurns;
     });
   }
   return (
