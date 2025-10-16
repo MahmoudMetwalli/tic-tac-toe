@@ -3,6 +3,7 @@ import { useState } from "react";
 import Player from "./components/Player.jsx";
 import GameBoard from "./components/GameBoard.jsx";
 import Log from "./components/Log.jsx";
+import WINNING_COMBINATIONS from "./constants/winningCombinations.js";
 
 function deriveActivePlayer(gameTurns) {
   let currentPlayer = "X";
@@ -28,10 +29,25 @@ function deriveGameBoard(gameTurns) {
   return gameBoard;
 }
 
+function computeWinner(gameBoard) {
+  for (const comination of WINNING_COMBINATIONS) {
+    const firstSymbol = gameBoard[comination[0].row][comination[0].column];
+    const secondSymbol = gameBoard[comination[1].row][comination[1].column];
+    const thirdSymbol = gameBoard[comination[2].row][comination[2].column];
+
+    if (
+      firstSymbol &&
+      firstSymbol === secondSymbol &&
+      firstSymbol === thirdSymbol
+    ) {
+      return firstSymbol;
+    }
+  }
+}
 function computeDerivedValues(gameTurns) {
   const activePlayer = deriveActivePlayer(gameTurns);
   const gameBoard = deriveGameBoard(gameTurns);
-
+  const winner = computeWinner(gameBoard);
   return { activePlayer, gameBoard };
 }
 function App() {
