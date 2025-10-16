@@ -1,17 +1,4 @@
-const initialGameBoard = [
-  [null, null, null],
-  [null, null, null],
-  [null, null, null],
-];
-
-export default function GameBoard({ handleSquareClick, gameTurns }) {
-  let gameBoard = initialGameBoard;
-
-  for (const turn of gameTurns) {
-    const { square, currentPlayer } = turn;
-    gameBoard[square.row][square.col] = currentPlayer;
-  }
-
+export default function GameBoard({ handleSquareClick, gameBoard }) {
   return (
     <ol id="game-board">
       {gameBoard.map((row, rowIndex) => (

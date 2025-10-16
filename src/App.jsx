@@ -12,10 +12,32 @@ function deriveActivePlayer(gameTurns) {
   return currentPlayer;
 }
 
+function deriveGameBoard(gameTurns) {
+  const initialGameBoard = [
+    [null, null, null],
+    [null, null, null],
+    [null, null, null],
+  ];
+
+  let gameBoard = initialGameBoard;
+
+  for (const turn of gameTurns) {
+    const { square, currentPlayer } = turn;
+    gameBoard[square.row][square.col] = currentPlayer;
+  }
+  return gameBoard;
+}
+
+function computeDerivedValues(gameTurns) {
+  const activePlayer = deriveActivePlayer(gameTurns);
+  const gameBoard = deriveGameBoard(gameTurns);
+
+  return { activePlayer, gameBoard };
+}
 function App() {
   const [gameTurns, setGameTurns] = useState([]);
 
-  const activePlayer = deriveActivePlayer(gameTurns);
+  const { activePlayer, gameBoard } = computeDerivedValues(gameTurns);
 
   function handleSquareClick(rowIndex, symbolIndex) {
     setGameTurns((prevGameTurns) => {
@@ -44,7 +66,7 @@ function App() {
         </ol>
         <GameBoard
           handleSquareClick={handleSquareClick}
-          gameTurns={gameTurns}
+          gameBoard={gameBoard}
         />
       </div>
       <Log turns={gameTurns} />
