@@ -2,22 +2,27 @@ import { useState } from "react";
 
 import Player from "./components/Player.jsx";
 import GameBoard from "./components/GameBoard.jsx";
+import Log from "./components/Log.jsx";
+
+function deriveActivePlayer(gameTurns) {
+  let currentPlayer = "X";
+  if (gameTurns.length > 0 && gameTurns[0].currentPlayer === "X") {
+    currentPlayer = "O";
+  }
+  return currentPlayer;
+}
 
 function App() {
-  const [activePlayer, setActivePlayer] = useState("X");
   const [gameTurns, setGameTurns] = useState([]);
 
+  const activePlayer = deriveActivePlayer(gameTurns);
+
   function handleSquareClick(rowIndex, symbolIndex) {
-    setActivePlayer((prevActivePlayer) => {
-      return prevActivePlayer === "X" ? "O" : "X";
-    });
     setGameTurns((prevGameTurns) => {
-      let currentPlayer = "X";
-      if (prevGameTurns.length > 0 && prevGameTurns[0].currentPlayer === "X") {
-        currentPlayer = "O";
-      }
+      const currentPlayer = deriveActivePlayer(prevGameTurns);
       const updatedGameTurns = [
         { square: { row: rowIndex, col: symbolIndex }, currentPlayer },
+        ...prevGameTurns,
       ];
       return updatedGameTurns;
     });
@@ -39,9 +44,10 @@ function App() {
         </ol>
         <GameBoard
           handleSquareClick={handleSquareClick}
-          activePlayerSymbol={activePlayer}
+          gameTurns={gameTurns}
         />
       </div>
+      <Log turns={gameTurns} />
     </main>
   );
 }
