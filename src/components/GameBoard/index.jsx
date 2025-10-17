@@ -1,4 +1,4 @@
-export default function GameBoard({ handleSquareClick, gameBoard }) {
+export default function GameBoard({ onSquareClick, gameBoard }) {
   return (
     <ol id="game-board">
       {gameBoard.map((row, rowIndex) => (
@@ -7,7 +7,7 @@ export default function GameBoard({ handleSquareClick, gameBoard }) {
             {row.map((playerSymbol, symbolIndex) => (
               <li key={symbolIndex}>
                 <button
-                  onClick={() => handleSquareClick(rowIndex, symbolIndex)}
+                  onClick={() => onSquareClick(rowIndex, symbolIndex)}
                   disabled={playerSymbol !== null}
                 >
                   {playerSymbol}
